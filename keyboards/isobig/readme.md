@@ -1,6 +1,6 @@
 # iS0
 
-![isoBig](https://imgur.com/CRYABwQ)
+![isoBig](https://imgur.com/CRYABwQ.jpg)
 
 Single-key macropad  
 
