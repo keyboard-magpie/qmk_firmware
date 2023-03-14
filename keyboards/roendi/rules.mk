@@ -1,1 +1,10 @@
-# This file intentionally left blank
+KEYBOARD_SHARED_EP = yes
+
+QUANTUM_PAINTER_ENABLE = yes
+QUANTUM_PAINTER_DRIVERS = gc9a01_spi
+
+SRC += test.qgf.c
+
+
+LTO_ENABLE = yes
+OPT = 2
