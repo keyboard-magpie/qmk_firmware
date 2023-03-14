@@ -13,15 +13,25 @@
         "nkro": true
     },
     "matrix_pins": {
-        "cols": ["C2", "C2", "C2", "C2"],
-        "rows": ["D1", "D1", "D1", "D1"]
+        "direct": [
+            ["A10", "A9", "B2", "B10"],
+            ["A4", "A5", "A1", "A2"],
+            ["H1", "H0", "C13", "B9"],
+            ["B8", "A15", "B4", "B6"]
+        ]
+    },
+        "encoder": {
+        "enabled": true,    
+        "rotary": [
+            {"pin_a": "B7", "pin_b": "B5", "resolution": 2},
+        ]
     },
     "processor": "STM32L433",
     "url": "",
     "usb": {
         "device_version": "1.0.0",
-        "pid": "0x0000",
-        "vid": "0xFEED"
+        "pid": "0x8968",
+        "vid": "0x0002"
     },
     "layouts": {
         "LAYOUT_ortho_4x4": {
