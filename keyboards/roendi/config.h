@@ -3,7 +3,7 @@
 
 #pragma once
 
-#define SPI_DRIVER SPID2
+#define SPI_DRIVER SPID1
 #define SPI_SCK_PIN B13
 #define SPI_SCK_PAL_MODE 5
 #define SPI_MOSI_PIN B15

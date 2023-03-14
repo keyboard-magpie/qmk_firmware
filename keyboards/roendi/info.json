@@ -9,8 +9,8 @@
         "command": false,
         "console": false,
         "extrakey": true,
-        "mousekey": true,
-        "nkro": true
+        "mousekey": false,
+        "nkro": false
     },
     "matrix_pins": {
         "direct": [
