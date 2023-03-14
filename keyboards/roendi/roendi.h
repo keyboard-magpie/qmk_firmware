@@ -1,4 +1,4 @@
-// Copyright 2022 bom
+// Copyright 2023 Tom Barnes (@Tom Barnes)
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include <qp.h>
