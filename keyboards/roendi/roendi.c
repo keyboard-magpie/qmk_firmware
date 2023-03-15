@@ -15,6 +15,7 @@ void keyboard_post_init_kb(void) {
     qp_drawimage(roendi_display, 0, 0, avatar_image);
     qp_flush(roendi_display);
     keyboard_post_init_user();
+}
 
 void spi_init(void) {
     static bool is_initialised = false;
