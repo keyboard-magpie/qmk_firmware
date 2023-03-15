@@ -16,18 +16,6 @@ void keyboard_post_init_kb(void) {
     qp_flush(roendi_display);
     keyboard_post_init_user();
 
-#ifdef ENCODER_ENABLE
-bool encoder_update_kb(uint8_t index, bool clockwise) {
-    if (!encoder_update_user(index, clockwise)) { return false; }
-    if (clockwise) {
-        tap_code(KC_VOLU);
-    } else {
-        tap_code(KC_VOLD);
-    }
-    return true;
-}
-#endif
-
 void spi_init(void) {
     static bool is_initialised = false;
     if (!is_initialised) {
@@ -46,6 +34,18 @@ void spi_init(void) {
         palSetPadMode(PAL_PORT(SPI_MOSI_PIN), PAL_PAD(SPI_MOSI_PIN), SPI_MOSI_FLAGS);
 #endif
         spiStop(&SPI_DRIVER);
-        currentSlavePin = NO_PIN;
+        //currentSlavePin = NO_PIN;
     }
 }
+
+// #ifdef ENCODER_ENABLE
+// bool encoder_update_kb(uint8_t index, bool clockwise) {
+//     if (!encoder_update_user(index, clockwise)) { return false; }
+//     if (clockwise) {
+//         tap_code(KC_VOLU);
+//     } else {
+//         tap_code(KC_VOLD);
+//     }
+//     return true;
+// }
+// #endif
