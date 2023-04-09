@@ -1,0 +1,3 @@
+CONVERT_TO = promicro_rp2040
+RGBLIGHT_ENABLE = no
+RGB_MATRIX_ENABLE = yes
