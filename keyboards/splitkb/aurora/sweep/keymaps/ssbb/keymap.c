@@ -96,5 +96,30 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 }
 
 layer_state_t layer_state_set_user(layer_state_t state) {
-  return update_tri_layer_state(state, _EXT, _SYM, _FUN);
+    return update_tri_layer_state(state, _EXT, _SYM, _FUN);
 }
+
+#ifdef RGB_MATRIX_ENABLE
+void keyboard_post_init_user(void) {
+  rgb_matrix_enable_noeeprom();
+  rgb_matrix_sethsv_noeeprom(HSV_AZURE);
+  rgb_matrix_mode_noeeprom(RGB_MATRIX_SOLID_COLOR);
+}
+
+bool rgb_matrix_indicators_user(void) {
+    if (get_oneshot_mods() & MOD_MASK_ALT) {
+        rgb_matrix_set_color(11, RGB_RED);
+    }
+    if (get_oneshot_mods() & MOD_MASK_GUI) {
+        rgb_matrix_set_color(12, RGB_RED);
+    }
+    if (get_oneshot_mods() & MOD_MASK_SHIFT) {
+        rgb_matrix_set_color(13, RGB_RED);
+    }
+    if (get_oneshot_mods() & MOD_MASK_CTRL) {
+        rgb_matrix_set_color(14, RGB_RED);
+    }
+
+    return true;
+}
+#endif
