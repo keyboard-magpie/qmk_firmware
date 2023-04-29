@@ -1,4 +1,5 @@
 #include QMK_KEYBOARD_H
+#include "features/achordion.h"
 
 enum layers {
     _DEF,
@@ -20,10 +21,31 @@ enum my_keycodes {
 #define BACK LSG(KC_LBRC)
 #define FWD  LSG(KC_RBRC)
 
+// Home row mods
+#define HOME_A LALT_T(KC_A)
+#define HOME_R LGUI_T(KC_R)
+#define HOME_S LSFT_T(KC_S)
+#define HOME_T LCTL_T(KC_T)
+
+#define HOME_N RCTL_T(KC_N)
+#define HOME_E RSFT_T(KC_E)
+#define HOME_I LGUI_T(KC_I)
+#define HOME_O LALT_T(KC_O)
+
+// #define HOME_A KC_A
+// #define HOME_R KC_R
+// #define HOME_S KC_S
+// #define HOME_T KC_T
+
+// #define HOME_N KC_N
+// #define HOME_E KC_E
+// #define HOME_I KC_I
+// #define HOME_O KC_O
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	[_DEF] = LAYOUT(
         KC_Q,       KC_W,       KC_F,       KC_P,       KC_B,       KC_J,       KC_L,       KC_U,       KC_Y,       KC_QUOT,
-        KC_A,       KC_R,       KC_S,       KC_T,       KC_G,       KC_M,       KC_N,       KC_E,       KC_I,       KC_O,
+        HOME_A,     HOME_R,     HOME_S,     HOME_T,     KC_G,       KC_M,       HOME_N,     HOME_E,     HOME_I,     HOME_O,
         KC_Z,       KC_X,       KC_C,       KC_D,       KC_V,       KC_K,       KC_H,       KC_COMM,    KC_DOT,     KC_SLSH,
                                             EXT,        KC_LSFT,    KC_SPC,     SYM
     ),
@@ -45,12 +67,31 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	[_FUN] = LAYOUT(
         QK_BOOT,    KC_MPRV,    KC_MPLY,    KC_MNXT,    C(KC_BRIU), G(KC_EQL),  KC_F7,      KC_F8,      KC_F9,      KC_F10,
         EE_CLR,     KC_VOLD,    KC_MUTE,    KC_VOLU,    C(KC_BRID), G(KC_MINS), KC_F4,      KC_F5,      KC_F6,      KC_F11,
-        QK_RBT,     KC_NO,      KC_NO,      KC_NO,      KC_NO,      G(KC_0),    KC_F1,      KC_F2,      KC_F3,      KC_F12,
+        QK_RBT,     DT_DOWN,    DT_PRNT,    DT_UP,      KC_NO,      G(KC_0),    KC_F1,      KC_F2,      KC_F3,      KC_F12,
                                             _______,    _______,    _______,    _______
     ),
 };
 
+void matrix_scan_user(void) {
+  achordion_task();
+}
+
+bool achordion_eager_mod(uint8_t mod) {
+  switch (mod) {
+    case MOD_LSFT:
+    case MOD_RSFT:
+    case MOD_LGUI:
+    case MOD_RGUI:
+      return true;  // Eagerly apply Shift and Gui mods.
+
+    default:
+      return false;
+  }
+}
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    if (!process_achordion(keycode, record)) { return false; }
+
     switch (keycode) {
         case OSM_LGUI:
             if (record->event.pressed) {
@@ -97,6 +138,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 layer_state_t layer_state_set_user(layer_state_t state) {
     return update_tri_layer_state(state, _EXT, _SYM, _FUN);
+}
+
+void keyboard_pre_init_user(void) {
+  // Set our LED pin as output
+  setPinOutput(24);
+  // Turn the LED off
+  // (Due to technical reasons, high is off and low is on)
+  writePinHigh(24);
 }
 
 #ifdef RGB_MATRIX_ENABLE
