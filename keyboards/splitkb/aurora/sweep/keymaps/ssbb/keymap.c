@@ -6,17 +6,12 @@ enum layers {
     _EXT,
     _SYM,
     _FUN,
+    _NUM,
 };
 
 #define EXT MO(_EXT)
 #define SYM MO(_SYM)
-
-enum my_keycodes {
-    OSM_LGUI = SAFE_RANGE,
-    OSM_LALT,
-    OSM_LSFT,
-    OSM_LCTL,
-};
+#define NUM MO(_NUM)
 
 #define BACK LSG(KC_LBRC)
 #define FWD  LSG(KC_RBRC)
@@ -32,16 +27,6 @@ enum my_keycodes {
 #define HOME_I LGUI_T(KC_I)
 #define HOME_O LALT_T(KC_O)
 
-// #define HOME_A KC_A
-// #define HOME_R KC_R
-// #define HOME_S KC_S
-// #define HOME_T KC_T
-
-// #define HOME_N KC_N
-// #define HOME_E KC_E
-// #define HOME_I KC_I
-// #define HOME_O KC_O
-
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	[_DEF] = LAYOUT(
         KC_Q,       KC_W,       KC_F,       KC_P,       KC_B,       KC_J,       KC_L,       KC_U,       KC_Y,       KC_QUOT,
@@ -51,23 +36,30 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
 	[_EXT] = LAYOUT(
-        QK_GESC,    BACK,       G(KC_F),    FWD,        G(KC_B),    KC_PGUP,    KC_HOME,    KC_UP,      KC_END,     CW_TOGG,
-        OSM_LALT,   OSM_LGUI,   OSM_LSFT,   OSM_LCTL,   C(KC_G),    KC_PGDN,    KC_LEFT,    KC_DOWN,    KC_RGHT,    KC_DEL,
+        QK_GESC,    BACK,       KC_NO,      FWD,        KC_NO,      KC_PGUP,    KC_HOME,    KC_UP,      KC_END,     CW_TOGG,
+        KC_LALT,    KC_LGUI,    KC_LSFT,    KC_LCTL,    KC_NO,      KC_PGDN,    KC_LEFT,    KC_DOWN,    KC_RGHT,    KC_DEL,
         G(KC_Z),    G(KC_X),    G(KC_C),    KC_TAB,     G(KC_V),    A(KC_BSPC), KC_BSPC,    KC_NO,      KC_NO,      KC_NO,
                                             _______,    _______,    KC_ENT,     _______
     ),
 
 	[_SYM] = LAYOUT(
-        KC_7,       KC_5,       KC_3,       KC_1,       KC_9,       KC_8,       KC_0,       KC_2,       KC_4,       KC_6,
-        KC_LT,      KC_PERC,    KC_LCBR,    KC_LPRN,    KC_LBRC,    KC_EQL,     KC_UNDS,    KC_COLN,    KC_GRV,     KC_PIPE,
-        KC_GT,      KC_DLR,     KC_RCBR,    KC_RPRN,    KC_RBRC,    KC_PLUS,    KC_MINS,    KC_SCLN,    KC_TILD,    KC_BSLS,
+        KC_EXLM,    KC_AT,      KC_HASH,    KC_DLR,     KC_PERC,    KC_EQL,     KC_GRV,     KC_COLN,    KC_SCLN,    KC_PLUS,
+        KC_LALT,    KC_LGUI,    KC_LSFT,    KC_LCTL,    KC_CIRC,    KC_ASTR,    KC_LPRN,    KC_LCBR,    KC_LBRC,    KC_MINS,
+        KC_NO,      KC_NO,      KC_BSLS,    KC_PIPE,    KC_AMPR,    KC_TILD,    KC_RPRN,    KC_RCBR,    KC_RBRC,    KC_UNDS,
+                                            _______,    NUM,        _______,    _______
+    ),
+
+    [_NUM] = LAYOUT(
+        KC_NO,      KC_NO,      KC_NO,       KC_NO,     KC_NO,      KC_EQL,     KC_7,       KC_8,       KC_9,       KC_PPLS,
+        KC_LALT,    KC_LGUI,    KC_LSFT,     KC_LCTL,   KC_NO,      KC_ASTR,    KC_4,       KC_5,       KC_6,       KC_PMNS,
+        KC_NO,      KC_NO,      KC_NO,       KC_BSPC,   KC_NO,      KC_0,       KC_1,       KC_2,       KC_3,       KC_SLSH,
                                             _______,    _______,    _______,    _______
     ),
 
 	[_FUN] = LAYOUT(
-        QK_BOOT,    KC_MPRV,    KC_MPLY,    KC_MNXT,    C(KC_BRIU), G(KC_EQL),  KC_F7,      KC_F8,      KC_F9,      KC_F10,
-        EE_CLR,     KC_VOLD,    KC_MUTE,    KC_VOLU,    C(KC_BRID), G(KC_MINS), KC_F4,      KC_F5,      KC_F6,      KC_F11,
-        QK_RBT,     DT_DOWN,    DT_PRNT,    DT_UP,      KC_NO,      G(KC_0),    KC_F1,      KC_F2,      KC_F3,      KC_F12,
+        KC_MSTP,    KC_MPRV,    KC_MPLY,    KC_MNXT,    KC_BRIU,    KC_F12,     KC_F7,      KC_F8,      KC_F9,      G(KC_EQL),
+        KC_LALT,    KC_LGUI,    KC_LSFT,    KC_LCTL,    KC_BRID,    KC_F11,     KC_F4,      KC_F5,      KC_F6,      G(KC_MINS),
+        KC_NO,      KC_VOLD,    KC_MUTE,    KC_VOLU,    KC_NO,      KC_F10,     KC_F1,      KC_F2,      KC_F3,      G(KC_0),
                                             _______,    _______,    _______,    _______
     ),
 };
@@ -91,47 +83,6 @@ bool achordion_eager_mod(uint8_t mod) {
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (!process_achordion(keycode, record)) { return false; }
-
-    switch (keycode) {
-        case OSM_LGUI:
-            if (record->event.pressed) {
-                register_mods(MOD_BIT(KC_LGUI));
-                add_oneshot_mods(MOD_BIT(KC_LGUI));
-            } else {
-                unregister_mods(MOD_BIT(KC_LGUI));
-            }
-            return false;
-
-        case OSM_LALT:
-            if (record->event.pressed) {
-                register_mods(MOD_BIT(KC_LALT));
-                add_oneshot_mods(MOD_BIT(KC_LALT));
-            } else {
-                unregister_mods(MOD_BIT(KC_LALT));
-            }
-            return false;
-
-        case OSM_LCTL:
-            if (record->event.pressed) {
-                register_mods(MOD_BIT(KC_LCTL));
-                add_oneshot_mods(MOD_BIT(KC_LCTL));
-            } else {
-                unregister_mods(MOD_BIT(KC_LCTL));
-            }
-            return false;
-
-        case OSM_LSFT:
-            if (record->event.pressed) {
-                register_mods(MOD_BIT(KC_LSFT));
-                add_oneshot_mods(MOD_BIT(KC_LSFT));
-            } else {
-                unregister_mods(MOD_BIT(KC_LSFT));
-            }
-            return false;
-
-        default:
-            break;
-    }
 
     return true;
 }
