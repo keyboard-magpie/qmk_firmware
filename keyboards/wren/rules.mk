@@ -12,3 +12,4 @@ RGBLIGHT_ENABLE = no        # Enable keyboard RGB underglow
 AUDIO_ENABLE = no           # Audio output
 ENCODER_ENABLE = yes        # Enables the use of one or more encoders
 SPLIT_KEYBOARD = yes        # Enables split keyboard
+PIN_COMPATIBLE = elite_c
