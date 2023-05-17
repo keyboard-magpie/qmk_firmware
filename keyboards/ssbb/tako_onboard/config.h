@@ -16,19 +16,18 @@
 
 #pragma once
 
-
-#define MATRIX_ROWS 4
-#define MATRIX_COLS 10
-
-// #define DIODE_DIRECTION COL2ROW
+#define MATRIX_ROWS 8
+#define MATRIX_COLS 5
 
 /* Custom matrix pins and port select array */
-#define MATRIX_ROW_PINS \
-    { A14, A15, B4, B5 }
-#define MATRIX_COL_CHANNELS \
-    { 4, 3, 2, 1, 0}
-#define MUX_SEL_PINS \
-    { A4, A5, A6 }
+#define MATRIX_ROW_PINS { A14, A15, B4, B5 }
+#define MATRIX_ROW_PINS_RIGHT { B15, B14, B13, B12 }
+
+#define MATRIX_COL_CHANNELS_LEFT { 6, 4, 2, 1, 0 }
+#define MATRIX_COL_CHANNELS_RIGHT { 3, 0, 1, 4, 6 }
+
+#define MUX_SEL_PINS_LEFT { A4, A5, A6 }
+#define MUX_SEL_PINS_RIGHT { A6, A5, A4 }
 
 /* Hardware peripherals pins */
 #define APLEX_EN_PIN A7
@@ -39,3 +38,25 @@
 #define DEFAULT_RELEASE_LEVEL 650
 
 #define DISCHARGE_TIME 10
+
+#define SERIAL_USART_DRIVER SD1
+#define SERIAL_USART_FULL_DUPLEX
+#define SERIAL_USART_TX_PIN B6     // USART TX pin
+#define SERIAL_USART_RX_PIN B7     // USART RX pin
+
+#define EE_HANDS
+
+#define BOOTMAGIC_LITE_ROW 0
+#define BOOTMAGIC_LITE_COLUMN 4
+
+#define BOOTMAGIC_LITE_ROW_RIGHT 4
+#define BOOTMAGIC_LITE_COLUMN_RIGHT 4
+
+#define I2C1_SCL_PIN B8
+#define I2C1_SDA_PIN B9
+#define I2C_DRIVER I2CD1
+#define OLED_BRIGHTNESS 128
+#define SPLIT_OLED_ENABLE
+
+#define DEBOUNCE 5
+#define DIODE_DIRECTION COL2ROW
