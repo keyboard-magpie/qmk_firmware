@@ -23,6 +23,9 @@
 #include "wait.h"
 #include "split_common/split_util.h"
 
+#define WAIT_DISCHARGE()
+#define WAIT_CHARGE()
+
 /* Pin and port array */
  pin_t row_pins[]     = MATRIX_ROW_PINS;
  pin_t col_channels[] = MATRIX_COL_CHANNELS_LEFT;
@@ -90,9 +93,6 @@ int ecsm_init(ecsm_config_t const* const ecsm_config) {
     palSetLineMode(ANALOG_PORT, PAL_MODE_INPUT_ANALOG);
     adcMux = pinToMux(ANALOG_PORT);
 
-    //Dummy call to make sure that adcStart() has been called in the appropriate state
-    adc_read(adcMux);
-
     // Initialize discharge pin as discharge mode
     writePinLow(DISCHARGE_PIN);
     setPinOutputOpenDrain(DISCHARGE_PIN);
@@ -126,16 +126,19 @@ uint16_t ecsm_readkey_raw(uint8_t row, uint8_t col) {
 
     // Set strobe pins to low state
     writePinLow(row_pins[row]);
+
     ATOMIC_BLOCK_FORCEON {
         // Set the row pin to high state and have capacitor charge
         charge_capacitor(row);
+
+        WAIT_CHARGE();
         // Read the ADC value
         sw_value = adc_read(adcMux);
     }
+
     // Discharge peak hold capacitor
     discharge_capacitor();
-    // Waiting for the ghost capacitor to discharge fully
-    wait_us(DISCHARGE_TIME);
+    WAIT_DISCHARGE();
 
     return sw_value;
 }
