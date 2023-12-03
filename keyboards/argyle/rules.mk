@@ -2,7 +2,6 @@ SRC = matrix.c \
       i2c_master.c
 
 # MCU name
-MCU = atmega328p
 
 # Bootloader selection
 #   Teensy       halfkay
@@ -12,13 +11,10 @@ MCU = atmega328p
 #   QMK DFU      qmk-dfu
 #   ATmega32A    bootloadHID
 #   ATmega328P   USBasp
-BOOTLOADER = USBasp
 
 # Build Options
 #   change yes to no to disable
 #
-BOOTMAGIC_ENABLE = lite     # Virtual DIP switch configuration
-MOUSEKEY_ENABLE = yes       # Mouse keys
 EXTRAKEY_ENABLE = yes       # Audio control and System control
 CONSOLE_ENABLE = no         # Console for debug
 COMMAND_ENABLE = no         # Commands for debug and configuration

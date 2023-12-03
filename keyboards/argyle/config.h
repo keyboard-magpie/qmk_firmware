@@ -17,14 +17,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "config_common.h"
-
-#define VENDOR_ID       0x8968
-#define PRODUCT_ID      0x4152
-#define DEVICE_VER      0x0001
-#define MANUFACTURER    Yiancar-Designs
-#define PRODUCT         Argyle
-#define DESCRIPTION     A 60 percent through hole keyboard with RGB and windows
 
 /* key matrix size */
 #define MATRIX_ROWS 5
@@ -48,7 +40,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define PORT_EXPANDER_ADDRESS 0x20
 
 /* COL2ROW, ROW2COL*/
-#define DIODE_DIRECTION COL2ROW
 
 /*
  * Split Keyboard specific options, make sure you have 'SPLIT_KEYBOARD = yes' in your rules.mk, and define SOFT_SERIAL_PIN.
@@ -59,7 +50,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // #define BACKLIGHT_BREATHING
 // #define BACKLIGHT_LEVELS 3
 
-#define RGB_DI_PIN C2
 #ifdef RGB_DI_PIN
   #define RGBLED_NUM 10
   #define RGBLIGHT_HUE_STEP 8
@@ -238,3 +228,4 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define LCD_E_PIN        1            //< pin  for Enable line
 #endif
 */
+#define IGNORE_ATOMIC_BLOCK
