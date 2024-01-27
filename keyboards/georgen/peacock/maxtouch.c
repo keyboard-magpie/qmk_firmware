@@ -54,7 +54,7 @@ static uint16_t cpi                                             = 300;
 // If true, we generate one more call to pointing_device_driver_get_report
 // after the motion pin goes high. This enables us to clear button state
 // in the case of a tap.
-static bool extra_event                                         = false;    
+static bool extra_event                                         = false;
 
 void pointing_device_driver_init(void) {
     mxt_information_block information = {0};
@@ -166,9 +166,9 @@ void pointing_device_driver_init(void) {
         cfg.ysize                           = information.matrix_y_size;    // TODO: Make configurable as this depends on the sensor design.
         cfg.xpitch                          = 15;   // Pitch between X-Lines (5mm + 0.1mm * XPitch). TODO: Make configurable as this depends on the sensor design.
         cfg.ypitch                          = 15;   // Pitch between Y-Lines (5mm + 0.1mm * YPitch). TODO: Make configurable as this depends on the sensor design.
-        cfg.gain                            = 6;    // Single transmit gain for mutual capacitance measurements
+        cfg.gain                            = 4;    // Single transmit gain for mutual capacitance measurements 6 in orig
         cfg.dxgain                          = 255;  // Dual transmit gain for mutual capacitance measurements
-        cfg.tchthr                          = 35;   // Touch threshold
+        cfg.tchthr                          = 10;   // Touch threshold orig 35
         cfg.mrgthr                          = 5;    // Merge threshold
         cfg.mrghyst                         = 5;    // Merge threshold hysterisis
         cfg.movsmooth                       = 224;
@@ -176,7 +176,7 @@ void pointing_device_driver_init(void) {
 
         cfg.xrange                          = CPI_TO_SAMPLES(cpi, MXT_SENSOR_HEIGHT);    // CPI handling, adjust the reported resolution
         cfg.yrange                          = CPI_TO_SAMPLES(cpi, MXT_SENSOR_WIDTH);     // CPI handling, adjust the reported resolution
-    
+
         status                              = i2c_writeReg16(MXT336UD_ADDRESS, t100_multiple_touch_touchscreen_address,
                                                 (uint8_t *)&cfg, sizeof(mxt_touch_multiscreen_t100), MXT_I2C_TIMEOUT_MS);
         if (status != I2C_STATUS_SUCCESS) {
@@ -236,7 +236,7 @@ report_mouse_t pointing_device_driver_get_report(report_mouse_t mouse_report) {
 
                             carry_h             = h % MXT_SCROLL_DIVISOR;
                             carry_v             = v % MXT_SCROLL_DIVISOR;
-                            
+
                             mouse_report.h      = h/MXT_SCROLL_DIVISOR;
                             mouse_report.v      = v/MXT_SCROLL_DIVISOR;
                         } else {
@@ -267,7 +267,7 @@ report_mouse_t pointing_device_driver_get_report(report_mouse_t mouse_report) {
                         move        = false;
                         button_held = false;
                         max_fingers = fingers;
-                    } 
+                    }
                     else if (event == UP) {
                         if (button_held) {
                             mouse_report.buttons    = pointing_device_handle_buttons(mouse_report.buttons, false, held_button);
@@ -291,7 +291,7 @@ report_mouse_t pointing_device_driver_get_report(report_mouse_t mouse_report) {
     }
 
     // Special case, if no messages were recieved this is probably an extra_event we requested after sending a
-    // button down for a tap. We need to send the button up now. 
+    // button down for a tap. We need to send the button up now.
     if (!seen_t100 && button_held) {
         mouse_report.buttons    = pointing_device_handle_buttons(mouse_report.buttons, false, held_button);
         button_held             = false;
@@ -309,7 +309,7 @@ void pointing_device_driver_set_cpi(uint16_t new_cpi) {
     if (t100_multiple_touch_touchscreen_address) {
         // TODO, We could probably just write 2 bytes.
         mxt_touch_multiscreen_t100 cfg  = {};
-        i2c_status_t status             = i2c_readReg16(MXT336UD_ADDRESS, t100_multiple_touch_touchscreen_address, 
+        i2c_status_t status             = i2c_readReg16(MXT336UD_ADDRESS, t100_multiple_touch_touchscreen_address,
                                             (uint8_t *)&cfg, sizeof(mxt_touch_multiscreen_t100), MXT_I2C_TIMEOUT_MS);
         cfg.xrange                      = CPI_TO_SAMPLES(cpi, MXT_SENSOR_HEIGHT);
         cfg.yrange                      = CPI_TO_SAMPLES(cpi, MXT_SENSOR_WIDTH);
