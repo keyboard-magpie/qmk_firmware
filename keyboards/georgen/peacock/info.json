@@ -7,7 +7,10 @@
         "matrix": [0, 0]
     },
     "encoder": {
-        "enabled": true
+        "rotary": [
+            {"pin_a": "GP20", "pin_b": "GP19"},
+            {"pin_a": "GP19", "pin_b": "GP17"}
+        ]
     },
     "features": {
         "bootmagic": true,
