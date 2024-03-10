@@ -1,0 +1,11 @@
+{
+    "keyboard": "tiffymacropad",
+    "layout": "LAYOUT",
+    "layers": [
+                [
+                        "KC_X", "KC_X", "KC_X", 
+						"KC_X", "KC_X", "KC_X", 
+						"KC_X", 		"KC_X", 
+                ],
+    ]
+}
