@@ -19,3 +19,4 @@
 #pragma once
 
 #define DYNAMIC_KEYMAP_LAYER_COUNT 8
+#define RGBLIGHT_DEFAULT_HUE 100
